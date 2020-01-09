@@ -28,6 +28,16 @@ label_list=['normal.', 'buffer_overflow.', 'loadmodule.', 'perl.', 'neptune.', '
     'spy.', 'rootkit.']
 
 
+# 将读入的数据存取为csv文件
+def read_file_to_csv(read_path, to_path):
+    print("# 开始读取文件")
+    data = pd.read_csv(read_path)
+    print(data[:2])
+    print("# 成功读取文件，开始转换为CSV")
+    data.to_csv(to_path)
+    print("# 转换完成")
+
+
 # 查找字符串在数组中的下标
 def find_index(string, array):
     for i in range(len(array)):
@@ -62,13 +72,13 @@ def process_data(data):
     # 转化为DataFrame
     df = pd.DataFrame(data_list, columns=col_names)
     print(data_list[:3])
-    print("#数据无量纲化完成")
+    print("# 数据无量纲化完成")
 
     '''
         2.数据标准化
         x' = [x-mean(x)] / std(x)
     '''
-    print("#开始数据标准化")
+    print("# 开始数据标准化")
     # 计算每一列的标准差
     std = df.std(axis='rows').tolist()
     # 计算每一列的均值
@@ -80,9 +90,9 @@ def process_data(data):
         row = data_list[idx]
         for col_idx in range(len(row)):
             row[col_idx] = abs(compute_regression_value(row[col_idx], std[col_idx], mean[col_idx]))
-        print("已完成{}%".format((idx/data_num) * 100))
+        print("## 已完成{}%".format((idx/data_num) * 100))
 
-    print("#数据标准化完成")
+    print("# 数据标准化完成")
     df = pd.DataFrame(data_list, columns=col_names)
     return df
 
