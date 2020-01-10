@@ -143,8 +143,9 @@ def process_data(file_path):
     return data_frame
 
 
-# 特征选择(递归消除法)
+# 特征选择(递归消除法,返回值:处理后的数据、新的数据标签)
 def recursive_feature_elimination(data_frame):
+    print("# 准备开始特征选择, 正在准备数据")
     # 获取X和y的特征名
     x_col_names = col_names
     x_col_names.remove("label")
@@ -153,9 +154,13 @@ def recursive_feature_elimination(data_frame):
     X = data_frame[x_col_names]
     y = data_frame[y_col_name]
     model = SVC(kernel="linear")
-    rfe = RFECV(estimator=model, step=1, cv=StratifiedKFold(3))
+    print("# 准备完成, 开始特征选择")
+    rfe = RFECV(estimator=model, step=1, cv=StratifiedKFold(2))
     rfe = rfe.fit(X, y)
     feature_new = X.columns.values[rfe.support_]
-    print(feature_new)
+    X_new = X[feature_new]
+    print("特征选择完成")
+    # 将两部分合并返回
+    return pd.concat([X_new, y], axis=1), feature_new
 
 
