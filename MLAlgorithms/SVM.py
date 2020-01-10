@@ -13,8 +13,7 @@ print("读取成功")
 file_path = dp.get_file_path(data_loc_path, file_name, 'txt')
 data = dp.process_data(file_path)
 # data.to_csv('{}/debug_data_standard.csv'.format(data_loc_path), columns=None, index=False)
-
-dp.recursive__feature_elimination(data)
+dp.recursive_feature_elimination(data)
 
 
 
